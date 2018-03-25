@@ -39,21 +39,17 @@ bool SerialConnection::available()
         return false;
     }
 
-    auto available = m_serial.bytesAvailable();
+    if (!readDebugMsgs()) {
+        return false;
+    }
 
+    auto available = m_serial.bytesAvailable();
     if (available == 0) {
         return false;
     }
 
     uint8_t len;
     m_serial.peek((char *) &len, sizeof(len));
-
-    if (len == '[') {
-        if (m_serial.canReadLine()) {
-            qDebug() << m_serial.readLine();
-        }
-        return false;
-    }
 
     // Формат пакета: |size(data)|data|\r\n|
     auto pocketSize = len + sizeof(len) + POCKET_END.size();
@@ -77,4 +73,18 @@ QByteArray SerialConnection::recv()
     auto data = m_serial.read(len);
     m_serial.read(POCKET_END.size());
     return data;
+}
+
+bool SerialConnection::readDebugMsgs()
+{
+    uint8_t len;
+    auto size = m_serial.peek((char *) &len, sizeof(len));
+    while (size == sizeof(len) && len == '[') {
+        if (!m_serial.canReadLine()) {
+            return false;
+        }
+        qDebug() << "[RECV DEBUG]" << m_serial.readLine();
+        size = m_serial.peek((char *) &len, sizeof(len));
+    }
+    return true;
 }

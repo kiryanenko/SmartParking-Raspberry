@@ -15,4 +15,8 @@ public:
     bool send(const uint8_t *data, uint8_t size) override;
 	bool available() override;
     QByteArray recv() override;
+
+private:
+    // Считывает все debug сообщения, возвращает true если все debug считаны.
+    bool readDebugMsgs();
 };
