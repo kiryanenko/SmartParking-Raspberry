@@ -16,13 +16,11 @@ void Driver::handleRecieveMessages()
 {
     while (available()) {
         qDebug() << "Recieve message";
-        size_t size;
-        const uint8_t *msg = recv(size);
-        if (msg) {
+        auto msg = recv();
+        if (!msg.isEmpty()) {
             qDebug() << "[RECV] " << msg;
-            m_handler->onRecv(msg, size);
+            m_handler->onRecv(msg);
             // TODO: Реализовать дальнейшую обработку
-            delete[] msg;
         }
     }
 }

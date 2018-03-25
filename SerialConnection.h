@@ -6,6 +6,7 @@
 class SerialConnection : public Driver
 {
     QSerialPort m_serial;
+    const QByteArray POCKET_END = QByteArray("\r\n");
 
 public:
     explicit SerialConnection(QString portName, AbstractReceiveMessageHandler *handler);
@@ -13,5 +14,5 @@ public:
 
     bool send(const uint8_t *data, uint8_t size) override;
 	bool available() override;
-	uint8_t* recv(size_t &size) override;
+    QByteArray recv() override;
 };

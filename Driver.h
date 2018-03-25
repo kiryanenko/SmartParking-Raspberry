@@ -1,5 +1,6 @@
 #pragma once
 #include <stdint.h>
+#include <QByteArray>
 #include "AbstractReceiveMessageHandler.h"
 
 
@@ -22,7 +23,7 @@ public:
 
     virtual bool send(const uint8_t *data, uint8_t size) = 0;
 	virtual bool available() = 0;
-	virtual uint8_t* recv(size_t &size) = 0;
+    virtual QByteArray recv() = 0;
 
 	void handleRecieveMessages();
 

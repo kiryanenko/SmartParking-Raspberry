@@ -8,5 +8,5 @@ class ReceiveMessageHandler : public AbstractReceiveMessageHandler
 public:
     ReceiveMessageHandler();
 
-    void onRecv(const uint8_t *data, size_t size) override;
+    void onRecv(QByteArray data) override;
 };

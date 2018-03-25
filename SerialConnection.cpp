@@ -33,27 +33,48 @@ qDebug() << dataToSend;
 
 bool SerialConnection::available()
 {
-    return m_serial.bytesAvailable() > 0;
+    if (!m_serial.isOpen()) {
+        qFatal("Serial port is closed.");
+        exit(1);
+        return false;
+    }
+
+    auto available = m_serial.bytesAvailable();
+
+    if (available == 0) {
+        return false;
+    }
+
+    uint8_t len;
+    m_serial.peek((char *) &len, sizeof(len));
+
+    if (len == '[') {
+        if (m_serial.canReadLine()) {
+            qDebug() << m_serial.readLine();
+        }
+        return false;
+    }
+
+    // Формат пакета: |size(data)|data|\r\n|
+    auto pocketSize = len + sizeof(len) + POCKET_END.size();
+    if (available >= pocketSize) {
+        auto buf = m_serial.peek(pocketSize);
+        if (!buf.endsWith(POCKET_END)) {
+            qCritical() << "Bad serial pocket: " << buf;
+            m_serial.clear();
+            return false;
+        }
+    }
+
+    return true;
 }
 
 
-uint8_t* SerialConnection::recv(size_t& size)
+QByteArray SerialConnection::recv()
 {
     uint8_t len;
-    size = m_serial.read((char *) &len, sizeof(len));
-
-    if (size < sizeof(len) || len == '[') {
-        qDebug() << '[' + m_serial.readLine();
-        return nullptr;
-    }
-
-    const auto buf = new uint8_t[len];
-    size = m_serial.read((char *) buf, len);
-
-    if (size != len) {
-        delete[] buf;
-        return nullptr;
-    }
-
-    return buf;
+    m_serial.read((char *) &len, sizeof(len));
+    auto data = m_serial.read(len);
+    m_serial.read(POCKET_END.size());
+    return data;
 }

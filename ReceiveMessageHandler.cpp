@@ -6,7 +6,7 @@ ReceiveMessageHandler::ReceiveMessageHandler() :
 }
 
 
-void ReceiveMessageHandler::onRecv(const uint8_t *data, size_t size)
+void ReceiveMessageHandler::onRecv(QByteArray data)
 {
 
 }
