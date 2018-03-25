@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     if (settings->value("idle_period").isNull()) settings->setValue("idle_period", 300);
     if (settings->value("driver").isNull()) settings->setValue("driver", "serial");
     if (settings->value("serial_port").isNull()) settings->setValue("serial_port", QSerialPortInfo().availablePorts()[0].portName());
+    if (settings->value("baud_rate").isNull()) settings->setValue("baud_rate", 9600);
     settings->sync(); //записываем настройки
 
     Worker *worker = new Worker(settings, &a);

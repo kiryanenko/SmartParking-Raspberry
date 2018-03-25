@@ -18,7 +18,7 @@ Worker::Worker(QSettings *settings, QObject *parent) : QObject(parent)
         }
         qDebug() << availablePorts;
 
-        m_driver = new SerialConnection(settings->value("serial_port").toString(), handler);
+        m_driver = new SerialConnection(handler, settings->value("serial_port").toString(), settings->value("baud_rate").toInt());
     }
 }
 

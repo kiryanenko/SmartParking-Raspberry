@@ -3,12 +3,12 @@
 
 #include <QDebug>
 
-SerialConnection::SerialConnection(QString portName, AbstractReceiveMessageHandler *handler) :
+SerialConnection::SerialConnection(AbstractReceiveMessageHandler *handler, QString portName, qint32 baudRate) :
 	Driver(handler)
 {
     qInfo() << "Connect to serial port: " << portName;
     m_serial.setPortName(portName);
-    m_serial.setBaudRate(QSerialPort::Baud9600);
+    m_serial.setBaudRate(baudRate);
     m_serial.open(QIODevice::ReadWrite);
 }
 
