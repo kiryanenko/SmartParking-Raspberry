@@ -1,6 +1,5 @@
 #ifndef RECEIVEMESSAGEHANDLER_H
 #define RECEIVEMESSAGEHANDLER_H
-#include <stdint.h>
 #include <QByteArray>
 
 class AbstractReceiveMessageHandler
@@ -10,8 +9,8 @@ public:
     virtual ~AbstractReceiveMessageHandler();
 
     virtual void onRecv(QByteArray data) {}
-    virtual void onParkingStatus(uint32_t id) {}
-    virtual void onInitStatus(uint16_t period) {}
+    virtual void onParkingStatus(quint32 id, quint8 place, bool isFree) {}
+    virtual void onInitStatus(quint16 period) {}
 };
 
 #endif // RECEIVEMESSAGEHANDLER_H

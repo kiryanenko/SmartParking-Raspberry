@@ -3,8 +3,8 @@
 
 #include <QDebug>
 
-SerialConnection::SerialConnection(AbstractReceiveMessageHandler *handler, QString portName, qint32 baudRate) :
-	Driver(handler)
+SerialConnection::SerialConnection(QList<quint64> &sensors, AbstractReceiveMessageHandler *handler, QString portName, qint32 baudRate) :
+    Driver(sensors, handler)
 {
     qInfo() << "Connect to serial port: " << portName;
     m_serial.setPortName(portName);

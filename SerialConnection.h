@@ -9,7 +9,7 @@ class SerialConnection : public Driver
     const QByteArray POCKET_END = QByteArray("\r\n");
 
 public:
-    explicit SerialConnection(AbstractReceiveMessageHandler *handler, QString portName, qint32 baudRate = QSerialPort::Baud9600);
+    explicit SerialConnection(QList<quint64> &sensors, AbstractReceiveMessageHandler *handler, QString portName, qint32 baudRate = QSerialPort::Baud9600);
 	~SerialConnection();
 
     bool send(const uint8_t *data, uint8_t size) override;

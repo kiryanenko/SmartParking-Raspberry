@@ -1,10 +1,9 @@
 #include "Driver.h"
 
-#include <QDataStream>
 #include <QDebug>
 
-Driver::Driver(AbstractReceiveMessageHandler* handler) :
-	m_handler(handler)
+Driver::Driver(QList<quint64> &sensors, AbstractReceiveMessageHandler* handler) :
+    m_sensors(sensors), m_handler(handler)
 {
 }
 
@@ -18,9 +17,22 @@ void Driver::handleRecieveMessages()
         qDebug() << "Recieve message";
         auto msg = recv();
         if (!msg.isEmpty()) {
-            qDebug() << "[RECV] " << msg;
             m_handler->onRecv(msg);
-            // TODO: Реализовать дальнейшую обработку
+            QDataStream stream(&msg, QIODevice::ReadOnly);
+            quint8 type;
+            quint32 id;
+            stream >> type >> id;
+            qDebug() << "[DEBUG] Recv msg type:" << type << "; sensor ID:" << id;
+
+            if (m_sensors.indexOf(id) != -1) {
+                if (type == type_of_recv_msg_parking_status) {
+                    handleRecvParkingState(id, stream);
+                } else {
+                    qCritical() << "[WARN] Unknown type:" << type;
+                }
+            } else {
+                qWarning() << "[WARN] Unknown sensor ID:" << id;
+            }
         }
     }
 }
@@ -68,4 +80,12 @@ void Driver::sendCancelReservation(uint32_t sensorId, uint8_t parkingPlaceId)
 
     stream << sensorId << type_of_send_msg_cancel_reservation << parkingPlaceId;
     send((uint8_t*) dataToSend.data(), dataToSend.size());
+}
+
+void Driver::handleRecvParkingState(quint32 id, QDataStream &stream)
+{
+    quint8 place;
+    bool isFree;
+    stream >> place >> isFree;
+    m_handler->onParkingStatus(id, place, isFree);
 }
