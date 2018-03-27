@@ -21,11 +21,13 @@ SOURCES += main.cpp \
     AbstractReceiveMessageHandler.cpp \
     ReceiveMessageHandler.cpp \
     Driver.cpp \
-    Worker.cpp
+    Worker.cpp \
+    Server.cpp
 
 HEADERS += \
     SerialConnection.h \
     AbstractReceiveMessageHandler.h \
     ReceiveMessageHandler.h \
     Driver.h \
-    Worker.h
+    Worker.h \
+    Server.h

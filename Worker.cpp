@@ -7,7 +7,18 @@
 
 Worker::Worker(QSettings *settings, QObject *parent) : QObject(parent)
 {
-    auto *handler = new ReceiveMessageHandler(QJsonDocument::fromJson(settings->value("servers").toByteArray()).array(), this);
+    QList<Server*> servers;
+    for(QJsonValue rec : QJsonDocument::fromJson(settings->value("servers").toByteArray()).array()) {
+        servers << new Server(
+                rec["host"].toString(),
+                rec["mqtt_port"].toInt(),
+                rec["mqtt_username"].toString(),
+                rec["mqtt_password"].toString(),
+                rec["login"].toString(),
+                rec["password"].toString());
+    }
+
+    auto *handler = new ReceiveMessageHandler(servers, this);
 
     QList<quint64> sensors;
     auto sensorsInSettings = settings->value("sensors").toList();

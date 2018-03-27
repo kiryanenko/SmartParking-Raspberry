@@ -1,17 +1,14 @@
 #pragma once
 
 #include "AbstractReceiveMessageHandler.h"
-
-#include <QMqttClient>
-#include <QJsonArray>
+#include "Server.h"
 
 class ReceiveMessageHandler : public AbstractReceiveMessageHandler
 {
-    QList<QMqttClient*> m_mqtt_clients;
-    QJsonArray m_servers;
+    QList<Server*> m_servers;
 
 public:
-    ReceiveMessageHandler(QJsonArray servers, QObject *parent = 0);
+    ReceiveMessageHandler(QList<Server*> &servers, QObject *parent = 0);
     ~ReceiveMessageHandler();
 
     void onRecv(QByteArray data) override;
