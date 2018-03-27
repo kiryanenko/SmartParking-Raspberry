@@ -34,9 +34,15 @@ void ReceiveMessageHandler::onRecv(QByteArray data)
 void ReceiveMessageHandler::onParkingStatus(quint32 id, quint8 place, bool isFree)
 {
     qInfo() << "[PARKING STATUS] ID =" << id << ", place =" << place << ", is free =" << isFree;
-    QJsonObject object
-    {
-        {"sensor", 1},
-        {"place_id", 2}
-    };
+    for (int i = 0; i < m_servers.count(); i++) {
+        qint64 _id = id;
+        QJsonObject response = {
+            {"login", m_servers[i].toObject()["login"]},
+            {"password", m_servers[i].toObject()["password"]},
+            {"sensor", _id},
+            {"place_id", place},
+            {"free", isFree}
+        };
+        m_mqtt_clients[i]->publish(QMqttTopicName("status"), QJsonDocument(response).toJson());
+    }
 }
