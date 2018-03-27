@@ -7,7 +7,7 @@
 
 Worker::Worker(QSettings *settings, QObject *parent) : QObject(parent)
 {
-    auto *handler = new ReceiveMessageHandler();
+    auto *handler = new ReceiveMessageHandler(QJsonDocument::fromJson(settings->value("servers").toByteArray()).array(), this);
 
     QList<quint64> sensors;
     auto sensorsInSettings = settings->value("sensors").toList();

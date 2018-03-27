@@ -1,5 +1,6 @@
 QT -= gui
 QT += serialport
+QT += mqtt
 
 CONFIG += c++11 console
 CONFIG -= app_bundle

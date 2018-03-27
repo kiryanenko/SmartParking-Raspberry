@@ -1,6 +1,6 @@
 #include "AbstractReceiveMessageHandler.h"
 
-AbstractReceiveMessageHandler::AbstractReceiveMessageHandler()
+AbstractReceiveMessageHandler::AbstractReceiveMessageHandler(QObject *parent) : QObject(parent)
 {
 }
 
