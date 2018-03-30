@@ -31,3 +31,6 @@ HEADERS += \
     Driver.h \
     Worker.h \
     Server.h
+
+target.path     = /home/pi/SmartParking-Transceiver
+INSTALLS        = target

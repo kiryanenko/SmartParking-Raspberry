@@ -53,7 +53,6 @@ void Server::onConnected()
 void Server::onDisconnected()
 {
     qCritical() << "[ERROR] MQTT disconnected from:" << m_host;
-    mqttConnect();
 }
 
 void Server::mqttConnect()
