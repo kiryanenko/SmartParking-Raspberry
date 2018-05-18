@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
     if (settings->value("driver").isNull()) settings->setValue("driver", "serial");
     if (settings->value("serial_port").isNull()) settings->setValue("serial_port", QSerialPortInfo().availablePorts()[0].portName());
     if (settings->value("baud_rate").isNull()) settings->setValue("baud_rate", 9600);
+    if (settings->value("frequency").isNull()) settings->setValue("frequency", 868);
+    if (settings->value("lora_timeout").isNull()) settings->setValue("lora_timeout", 1000);
     if (settings->value("idle_period").isNull()) settings->setValue("idle_period", 300);
     settings->sync(); //записываем настройки
 

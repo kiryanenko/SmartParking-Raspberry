@@ -3,12 +3,22 @@
 
 #include "Driver.h"
 
+#include <bcm2835.h>
+#include <RH_RF95.h>
 #include <RadioHead.h>
+
+#define RF_CS_PIN  RPI_V2_GPIO_P1_24 // Slave Select on CE0 so P1 connector pin #24
+#define RF_IRQ_PIN RPI_V2_GPIO_P1_22 // IRQ on GPIO25 so P1 connector pin #22
+#define RF_RST_PIN RPI_V2_GPIO_P1_15 // IRQ on GPIO22 so P1 connector pin #15
 
 class LoRaConnection : public Driver
 {
+    RH_RF95 m_rf95;
+
+    uint16_t m_timeout;
+
 public:
-    explicit LoRaConnection(QList<quint64> &sensors, AbstractReceiveMessageHandler *handler, int frequency);
+    explicit LoRaConnection(QList<quint64> &sensors, AbstractReceiveMessageHandler *handler, int frequency, uint16_t timeout);
     ~LoRaConnection();
 
     bool send(const uint8_t *data, uint8_t size) override;

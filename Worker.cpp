@@ -1,3 +1,4 @@
+#include "LoRaConnection.h"
 #include "Worker.h"
 
 #include <QSerialPortInfo>
@@ -27,7 +28,11 @@ Worker::Worker(QSettings *settings, QObject *parent) : QObject(parent)
     }
 
     QString driverType = settings->value("driver").toString().toLower();
-    if (driverType == "rfm95") {
+    if (driverType == "rfm95" || driverType == "lora") {
+        m_driver = new LoRaConnection(sensors,
+                                      handler,
+                                      settings->value("frequency").toInt(),
+                                      settings->value("lora_timeout").toInt());
     } else {
         QString availablePorts = "Available ports: ";
         for (QSerialPortInfo info : QSerialPortInfo().availablePorts()) {
