@@ -5,7 +5,6 @@ LoRaConnection::LoRaConnection(QList<quint64> &sensors, AbstractReceiveMessageHa
 {
     m_timeout = timeout;
 
-    qCritical() << "ssssssssssss";
     if (!bcm2835_init()) {
       qCritical() << "bcm2835_init() Failed";
     }

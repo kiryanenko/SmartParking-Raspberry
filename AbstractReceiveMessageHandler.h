@@ -14,7 +14,13 @@ public:
 
     virtual void onRecv(QByteArray data) {}
     virtual void onParkingStatus(quint32 id, quint8 place, bool isFree) {}
-    virtual void onInitStatus(quint16 period) {}
+    virtual void onInit(quint32 id,
+                              quint16 samplingPeriod,
+                              quint16 sendingPeriod,
+                              quint16 dayCost,
+                              quint16 nightCost,
+                              quint32 dayStartTime,
+                              quint32 nightStartTime) {}
 };
 
 #endif // RECEIVEMESSAGEHANDLER_H

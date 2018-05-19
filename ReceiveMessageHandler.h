@@ -13,4 +13,11 @@ public:
 
     void onRecv(QByteArray data) override;
     void onParkingStatus(quint32 id, quint8 place, bool isFree) override;
+    void onInit(quint32 id,
+                      quint16 samplingPeriod,
+                      quint16 sendingPeriod,
+                      quint16 dayCost,
+                      quint16 nightCost,
+                      quint32 dayStartTime,
+                      quint32 nightStartTime) override;
 };

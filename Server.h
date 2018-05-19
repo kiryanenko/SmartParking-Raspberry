@@ -23,7 +23,15 @@ public:
     Server(QString host, quint16 mqtt_port, QString mqttUsername, QString mqttPwd, QString login, QString pwd, QObject *parent = 0);
     ~Server();
 
-    void sendParkingStatus(quint32 id, quint8 place, bool isFree);
+    void sendParkingStatus(qint64 id, quint8 place, bool isFree);
+    void sendInit(
+            qint64 id,
+            quint16 samplingPeriod,
+            quint16 sendingPeriod,
+            quint16 dayCost,
+            quint16 nightCost,
+            qint64 dayStartTime,
+            qint64 nightStartTime);
 
 public slots:
     void onConnected();

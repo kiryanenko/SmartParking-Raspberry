@@ -30,19 +30,36 @@ Server::~Server()
     m_mqtt->disconnect();
 }
 
-void Server::sendParkingStatus(quint32 id, quint8 place, bool isFree)
+void Server::sendParkingStatus(qint64 id, quint8 place, bool isFree)
 {
     mqttCheckConnection();
 
-    qint64 _id = id;
     QJsonObject response = {
         {"login", m_login},
         {"password", m_pwd},
-        {"sensor", _id},
+        {"sensor", id},
         {"place_id", place},
         {"free", isFree}
     };
     m_mqtt->publish(QMqttTopicName("status"), QJsonDocument(response).toJson());
+}
+
+void Server::sendInit(qint64 id, quint16 samplingPeriod, quint16 sendingPeriod, quint16 dayCost, quint16 nightCost, qint64 dayStartTime, qint64 nightStartTime)
+{
+    mqttCheckConnection();
+
+    QJsonObject response = {
+        {"login", m_login},
+        {"password", m_pwd},
+        {"sensor", id},
+        {"sampling_period", samplingPeriod},
+        {"sending_period", sendingPeriod},
+        {"day_cost", dayCost},
+        {"night_cost", nightCost},
+        {"day_start_time", dayStartTime},
+        {"night_start_time", nightStartTime}
+    };
+    m_mqtt->publish(QMqttTopicName("init"), QJsonDocument(response).toJson());
 }
 
 void Server::onConnected()

@@ -9,7 +9,7 @@
 class Driver
 {
     const quint8 type_of_recv_msg_parking_status = 'S';
-    const quint8 type_of_recv_msg_init_status = 'I';
+    const quint8 type_of_recv_msg_init = 'I';
 
     const quint8 type_of_send_msg_set_id = 'i';
     const quint8 type_of_send_msg_set_sensor_sampling_period = 's';
@@ -39,4 +39,5 @@ public:
 
 private:
     void handleRecvParkingState(quint32 id, QDataStream &stream);
+    void handleRecvInit(quint32 id, QDataStream &stream);
 };

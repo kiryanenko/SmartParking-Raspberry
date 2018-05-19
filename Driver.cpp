@@ -27,6 +27,9 @@ void Driver::handleRecieveMessages()
             if (m_sensors.indexOf(id) != -1) {
                 if (type == type_of_recv_msg_parking_status) {
                     handleRecvParkingState(id, stream);
+                } else if (type == type_of_recv_msg_init) {
+                    qDebug() << "dddddgggggggggggggggggggggdddddd";
+                    handleRecvInit(id, stream);
                 } else {
                     qCritical() << "[WARN] Unknown type:" << type;
                 }
@@ -88,4 +91,13 @@ void Driver::handleRecvParkingState(quint32 id, QDataStream &stream)
     bool isFree;
     stream >> place >> isFree;
     m_handler->onParkingStatus(id, place, isFree);
+}
+
+void Driver::handleRecvInit(quint32 id, QDataStream &stream)
+{
+    quint16 samplingPeriod, sendingPeriod;
+    quint16 dayCost, nightCost;
+    quint32 dayStartTime, nightStartTime;
+    stream >> samplingPeriod >> sendingPeriod >> dayCost >> nightCost >> dayStartTime >> nightStartTime;
+    m_handler->onInit(id, samplingPeriod, sendingPeriod, dayCost, nightCost, dayStartTime, nightStartTime);
 }
