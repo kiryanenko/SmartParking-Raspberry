@@ -76,4 +76,5 @@ void ReceiveMessageHandler::onSetSensorSettings(quint32 sensor, quint16 sampling
             << ", night cost =" << nightCost
             << ", day start time =" << dayStartTime
             << ", night start time =" << nightStartTime;
+    m_driver->sendSetSettings(sensor, samplingPeriod, sendingPeriod, dayCost, nightCost, dayStartTime, nightStartTime);
 }

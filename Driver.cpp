@@ -2,16 +2,6 @@
 
 #include <QDebug>
 
-//const quint8 type_of_recv_msg_parking_status = 'S';
-//const quint8 type_of_recv_msg_init = 'I';
-//const quint8 type_of_recv_msg_payment = 'P';
-
-//const quint8 type_of_send_msg_set_id = 'i';
-//const quint8 type_of_send_msg_set_sensor_sampling_period = 's';
-//const quint8 type_of_send_msg_set_sending_period = 'p';
-//const quint8 type_of_send_msg_reserve = 'r';
-//const quint8 type_of_send_msg_cancel_reservation = 'c';
-
 
 Driver::Driver(QList<quint32> &sensors, AbstractReceiveMessageHandler* handler, QObject *parent) :
     m_sensors(sensors), m_handler(handler), QObject(parent)
@@ -81,6 +71,18 @@ void Driver::sendSetSendingPeriod(quint32 sensorId, quint16 sendingPeriod)
     QDataStream stream(&dataToSend, QIODevice::WriteOnly);
 
     stream << type_of_send_msg_set_sending_period << sensorId << sendingPeriod;
+    send(dataToSend);
+}
+
+void Driver::sendSetSettings(quint32 sensorId, quint16 samplingPeriod, quint16 sendingPeriod,
+                             quint16 dayCost, quint16 nightCost, quint32 dayStartTime, quint32 nightStartTime)
+{
+    QByteArray dataToSend;
+    QDataStream stream(&dataToSend, QIODevice::ReadWrite);
+
+    stream << type_of_send_msg_set_settings << sensorId << samplingPeriod << sendingPeriod
+           << dayCost << nightCost << dayStartTime << nightStartTime;
+    qDebug() << "[DEBUG] Data to send:" << dataToSend;
     send(dataToSend);
 }
 

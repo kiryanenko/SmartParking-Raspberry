@@ -2,10 +2,8 @@
 
 LoRaConnection::LoRaConnection(QList<quint32> &sensors, int frequency, uint16_t timeout,
                                AbstractReceiveMessageHandler *handler) :
-    m_rf95(RF_CS_PIN, RF_IRQ_PIN), Driver(sensors, handler)
+    m_rf95(RF_CS_PIN, RF_IRQ_PIN), m_timeout(timeout), Driver(sensors, handler)
 {
-    m_timeout = timeout;
-
     if (!bcm2835_init()) {
       qCritical() << "bcm2835_init() Failed";
     }
@@ -33,10 +31,13 @@ LoRaConnection::~LoRaConnection()
 
 bool LoRaConnection::send(QByteArray data)
 {
-    qDebug() << "[SEND]" << data;
-
+    qDebug() << "[SEND] Msg[" << data.size() << "]:" << data;
     m_rf95.send((uint8_t*) data.data(), data.size());
     const auto isSend = m_rf95.waitPacketSent();
+
+    if (!isSend) {
+        qCritical() << "[ERROR] RFM95 do not send data:" << data;
+    }
     return isSend;
 }
 

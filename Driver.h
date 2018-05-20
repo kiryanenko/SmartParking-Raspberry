@@ -17,8 +17,9 @@ class Driver : public QObject
     const quint8 type_of_recv_msg_payment = 'P';
 
     const quint8 type_of_send_msg_set_id = 'i';
-    const quint8 type_of_send_msg_set_sensor_sampling_period = 's';
+    const quint8 type_of_send_msg_set_sensor_sampling_period = 'a';
     const quint8 type_of_send_msg_set_sending_period = 'p';
+    const quint8 type_of_send_msg_set_settings = 's';
     const quint8 type_of_send_msg_reserve = 'r';
     const quint8 type_of_send_msg_cancel_reservation = 'c';
 
@@ -43,6 +44,8 @@ public:
     void sendSetId(quint32 sensorId, quint32 newId);
     void sendSetSensorSamplingPeriod(quint32 sensorId, quint16 samplingPeriod);
     void sendSetSendingPeriod(quint32 sensorId, quint16 sendingPeriod);
+    void sendSetSettings(quint32 sensorId, quint16 samplingPeriod, quint16 sendingPeriod,
+                         quint16 dayCost, quint16 nightCost, quint32 dayStartTime, quint32 nightStartTime);
     void sendReserve(quint32 sensorId, quint8 parkingPlaceId, quint32 time);
     void sendCancelReservation(quint32 sensorId, quint8 parkingPlaceId);
 
