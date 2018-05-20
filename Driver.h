@@ -32,7 +32,7 @@ public:
                     QObject *parent = 0);
     virtual ~Driver();
 
-    virtual bool send(QByteArray &data) = 0;
+    virtual bool send(QByteArray data) = 0;
     virtual bool available() = 0;
     virtual QByteArray recv() = 0;
 

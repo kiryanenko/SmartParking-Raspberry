@@ -62,7 +62,7 @@ void Driver::sendSetId(quint32 currentId, quint32 newId)
     QByteArray dataToSend;
     QDataStream stream(&dataToSend, QIODevice::WriteOnly);
 
-    stream << currentId << type_of_send_msg_set_id << newId;
+    stream << type_of_send_msg_set_id << currentId << newId;
     send(dataToSend);
 }
 
@@ -71,7 +71,7 @@ void Driver::sendSetSensorSamplingPeriod(quint32 sensorId, quint16 samplingPerio
     QByteArray dataToSend;
     QDataStream stream(&dataToSend, QIODevice::WriteOnly);
 
-    stream << sensorId << type_of_send_msg_set_sensor_sampling_period << samplingPeriod;
+    stream << type_of_send_msg_set_sensor_sampling_period << sensorId << samplingPeriod;
     send(dataToSend);
 }
 
@@ -80,7 +80,7 @@ void Driver::sendSetSendingPeriod(quint32 sensorId, quint16 sendingPeriod)
     QByteArray dataToSend;
     QDataStream stream(&dataToSend, QIODevice::WriteOnly);
 
-    stream << sensorId << type_of_send_msg_set_sending_period << sendingPeriod;
+    stream << type_of_send_msg_set_sending_period << sensorId << sendingPeriod;
     send(dataToSend);
 }
 
@@ -89,7 +89,7 @@ void Driver::sendReserve(quint32 sensorId, quint8 parkingPlaceId, quint32 time)
     QByteArray dataToSend;
     QDataStream stream(&dataToSend, QIODevice::ReadWrite);
 
-    stream << sensorId << type_of_send_msg_reserve << parkingPlaceId << time;
+    stream << type_of_send_msg_reserve << sensorId << parkingPlaceId << time;
     qDebug() << "[DEBUG] Data to send:" << dataToSend;
     qDebug() << "[DEBUG] Base method, class" << this->metaObject()->className();
     send(dataToSend);
@@ -100,7 +100,7 @@ void Driver::sendCancelReservation(quint32 sensorId, quint8 parkingPlaceId)
     QByteArray dataToSend;
     QDataStream stream(&dataToSend, QIODevice::WriteOnly);
 
-    stream << sensorId << type_of_send_msg_cancel_reservation << parkingPlaceId;
+    stream << type_of_send_msg_cancel_reservation << sensorId << parkingPlaceId;
     qDebug() << "[DEBUG] Data to send:" << dataToSend;
     send(dataToSend);
 }

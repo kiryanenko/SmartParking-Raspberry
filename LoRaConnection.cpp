@@ -31,7 +31,7 @@ LoRaConnection::~LoRaConnection()
 {
 }
 
-bool LoRaConnection::send(QByteArray &data)
+bool LoRaConnection::send(QByteArray data)
 {
     qDebug() << "[SEND]" << data;
 

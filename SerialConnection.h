@@ -15,7 +15,7 @@ public:
                               AbstractReceiveMessageHandler *handler = new AbstractReceiveMessageHandler(), QObject *parent = 0);
 	~SerialConnection();
 
-    bool send(QByteArray &data) Q_DECL_OVERRIDE;
+    bool send(QByteArray data) Q_DECL_OVERRIDE;
     bool available() Q_DECL_OVERRIDE;
     QByteArray recv() Q_DECL_OVERRIDE;
 

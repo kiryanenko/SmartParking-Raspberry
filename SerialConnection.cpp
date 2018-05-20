@@ -20,8 +20,10 @@ SerialConnection::~SerialConnection()
 }
 
 
-bool SerialConnection::send(QByteArray &data)
+bool SerialConnection::send(QByteArray data)
 {
+    char len = data.size();
+    data.prepend(len);
     qDebug() << "[SEND] " << data;
     auto sendedCount = m_serial.write(data);
     return sendedCount == data.size();

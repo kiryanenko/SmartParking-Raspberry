@@ -24,7 +24,7 @@ public:
                             AbstractReceiveMessageHandler *handler = new AbstractReceiveMessageHandler());
     ~LoRaConnection();
 
-    bool send(QByteArray &data) Q_DECL_OVERRIDE;
+    bool send(QByteArray data) Q_DECL_OVERRIDE;
     bool available() Q_DECL_OVERRIDE;
     QByteArray recv() Q_DECL_OVERRIDE;
 };
