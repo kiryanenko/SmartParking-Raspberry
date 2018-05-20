@@ -42,7 +42,9 @@ Worker::Worker(QSettings *settings, QObject *parent) : QObject(parent)
 
         m_driver = new SerialConnection(sensors,
                                         settings->value("serial_port").toString(),
-                                        settings->value("baud_rate").toInt());
+                                        settings->value("baud_rate").toInt(),
+                                        new AbstractReceiveMessageHandler(parent),
+                                        parent);
     }
 
     auto *handler = new ReceiveMessageHandler(servers, m_driver, this);

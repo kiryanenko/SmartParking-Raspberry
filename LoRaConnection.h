@@ -13,6 +13,8 @@
 
 class LoRaConnection : public Driver
 {
+    Q_OBJECT
+
     RH_RF95 m_rf95;
 
     uint16_t m_timeout;
@@ -22,9 +24,9 @@ public:
                             AbstractReceiveMessageHandler *handler = new AbstractReceiveMessageHandler());
     ~LoRaConnection();
 
-    bool send(QByteArray data) override;
-    bool available() override;
-    QByteArray recv() override;
+    bool send(QByteArray &data) Q_DECL_OVERRIDE;
+    bool available() Q_DECL_OVERRIDE;
+    QByteArray recv() Q_DECL_OVERRIDE;
 };
 
 #endif // LORACONNECTION_H

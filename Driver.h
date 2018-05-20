@@ -1,13 +1,17 @@
 #pragma once
-#include <stdint.h>
+
+#include <QtCore>
 #include <QByteArray>
 #include <QDataStream>
 #include <QList>
 #include "AbstractReceiveMessageHandler.h"
 
 
-class Driver
+class Driver : public QObject
 {
+    Q_OBJECT
+
+
     const quint8 type_of_recv_msg_parking_status = 'S';
     const quint8 type_of_recv_msg_init = 'I';
     const quint8 type_of_recv_msg_payment = 'P';
@@ -18,27 +22,29 @@ class Driver
     const quint8 type_of_send_msg_reserve = 'r';
     const quint8 type_of_send_msg_cancel_reservation = 'c';
 
+
     AbstractReceiveMessageHandler *m_handler;
 
     QList<quint32> m_sensors;
 
 public:
-    explicit Driver(QList<quint32> &sensors, AbstractReceiveMessageHandler *handler = new AbstractReceiveMessageHandler());
-	virtual ~Driver();
+    explicit Driver(QList<quint32> &sensors, AbstractReceiveMessageHandler *handler = new AbstractReceiveMessageHandler(),
+                    QObject *parent = 0);
+    virtual ~Driver();
 
-    virtual bool send(QByteArray data) = 0;
-	virtual bool available() = 0;
+    virtual bool send(QByteArray &data) = 0;
+    virtual bool available() = 0;
     virtual QByteArray recv() = 0;
 
     void setHandler(AbstractReceiveMessageHandler *handler);
 
 	void handleRecieveMessages();
 
-    void sendSetId(uint32_t sensorId, uint32_t newId);
-    void sendSetSensorSamplingPeriod(uint32_t sensorId, uint16_t samplingPeriod);
-    void sendSetSendingPeriod(uint32_t sensorId, uint16_t sendingPeriod);
-    void sendReserve(uint32_t sensorId, uint8_t parkingPlaceId, uint32_t time);
-    void sendCancelReservation(uint32_t sensorId, uint8_t parkingPlaceId);
+    void sendSetId(quint32 sensorId, quint32 newId);
+    void sendSetSensorSamplingPeriod(quint32 sensorId, quint16 samplingPeriod);
+    void sendSetSendingPeriod(quint32 sensorId, quint16 sendingPeriod);
+    void sendReserve(quint32 sensorId, quint8 parkingPlaceId, quint32 time);
+    void sendCancelReservation(quint32 sensorId, quint8 parkingPlaceId);
 
 private:
     void handleRecvParkingState(quint32 id, QDataStream &stream);

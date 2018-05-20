@@ -4,8 +4,8 @@
 #include <QDebug>
 
 SerialConnection::SerialConnection(QList<quint32> &sensors, QString portName, qint32 baudRate,
-                                   AbstractReceiveMessageHandler *handler) :
-    Driver(sensors, handler)
+                                   AbstractReceiveMessageHandler *handler, QObject *parent) :
+    Driver(sensors, handler, parent)
 {
     qInfo() << "Connect to serial port: " << portName;
     m_serial.setPortName(portName);
@@ -20,8 +20,9 @@ SerialConnection::~SerialConnection()
 }
 
 
-bool SerialConnection::send(QByteArray data)
+bool SerialConnection::send(QByteArray &data)
 {
+    qDebug() << "[SEND] " << data;
     auto sendedCount = m_serial.write(data);
     return sendedCount == data.size();
 }

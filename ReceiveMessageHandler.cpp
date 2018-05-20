@@ -4,7 +4,7 @@
 #include <QJsonObject>
 
 ReceiveMessageHandler::ReceiveMessageHandler(QList<Server*> &servers, Driver *driver, QObject *parent) :
-    m_servers(servers), AbstractReceiveMessageHandler(parent)
+    m_servers(servers), m_driver(driver), AbstractReceiveMessageHandler(parent)
 {
 }
 

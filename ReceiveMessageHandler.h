@@ -6,6 +6,8 @@
 
 class ReceiveMessageHandler : public AbstractReceiveMessageHandler
 {
+    Q_OBJECT
+
     QList<Server*> m_servers;
     Driver *m_driver;
 
