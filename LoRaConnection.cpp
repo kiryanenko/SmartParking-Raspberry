@@ -1,6 +1,7 @@
 #include "LoRaConnection.h"
 
-LoRaConnection::LoRaConnection(QList<quint64> &sensors, AbstractReceiveMessageHandler *handler, int frequency, uint16_t timeout) :
+LoRaConnection::LoRaConnection(QList<quint32> &sensors, int frequency, uint16_t timeout,
+                               AbstractReceiveMessageHandler *handler) :
     m_rf95(RF_CS_PIN, RF_IRQ_PIN), Driver(sensors, handler)
 {
     m_timeout = timeout;
@@ -30,9 +31,11 @@ LoRaConnection::~LoRaConnection()
 {
 }
 
-bool LoRaConnection::send(const uint8_t *data, uint8_t size)
+bool LoRaConnection::send(QByteArray data)
 {
-    m_rf95.send(data, size);
+    qDebug() << "[SEND]" << data;
+
+    m_rf95.send((uint8_t*) data.data(), data.size());
     const auto isSend = m_rf95.waitPacketSent();
     return isSend;
 }

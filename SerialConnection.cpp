@@ -3,7 +3,8 @@
 
 #include <QDebug>
 
-SerialConnection::SerialConnection(QList<quint64> &sensors, AbstractReceiveMessageHandler *handler, QString portName, qint32 baudRate) :
+SerialConnection::SerialConnection(QList<quint32> &sensors, QString portName, qint32 baudRate,
+                                   AbstractReceiveMessageHandler *handler) :
     Driver(sensors, handler)
 {
     qInfo() << "Connect to serial port: " << portName;
@@ -19,15 +20,10 @@ SerialConnection::~SerialConnection()
 }
 
 
-bool SerialConnection::send(const uint8_t* data, const uint8_t size)
+bool SerialConnection::send(QByteArray data)
 {
-    QByteArray dataToSend((char*) &size, sizeof(size));
-    dataToSend.append((char*) data, size);
-
-qDebug() << dataToSend;
-
-    auto sendedCount = m_serial.write(dataToSend);
-    return sendedCount == size;
+    auto sendedCount = m_serial.write(data);
+    return sendedCount == data.size();
 }
 
 

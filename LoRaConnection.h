@@ -18,10 +18,11 @@ class LoRaConnection : public Driver
     uint16_t m_timeout;
 
 public:
-    explicit LoRaConnection(QList<quint64> &sensors, AbstractReceiveMessageHandler *handler, int frequency, uint16_t timeout);
+    explicit LoRaConnection(QList<quint32> &sensors, int frequency, uint16_t timeout,
+                            AbstractReceiveMessageHandler *handler = new AbstractReceiveMessageHandler());
     ~LoRaConnection();
 
-    bool send(const uint8_t *data, uint8_t size) override;
+    bool send(QByteArray data) override;
     bool available() override;
     QByteArray recv() override;
 };
